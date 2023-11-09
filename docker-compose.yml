@@ -1,0 +1,24 @@
+version: "3.3"
+services:
+  backend:
+    build: backend
+    ports:
+      - "443:443"
+    volumes:
+      - "./frontend:/frontend/"
+      - "./config:/config/"
+      - "/etc/letsencrypt:/etc/letsencrypt"
+    networks:
+      - "production_db_default"
+      - "default"
+    restart: always
+  http-to-https:
+    build: http-to-https
+    ports:
+      - "80:80"
+    restart: always
+
+networks:
+  default:
+  production_db_default:
+    external: true
