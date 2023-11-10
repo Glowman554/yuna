@@ -1,6 +1,8 @@
 import { Route } from "../route.ts";
 import mysql from "npm:mysql2@3.6.2/promise";
 
+import { sendGenericError } from "./error.ts";
+
 export function searchEndpoint(connection: mysql.Connection): Route {
     return {
         path: "/search",
@@ -8,7 +10,8 @@ export function searchEndpoint(connection: mysql.Connection): Route {
         handler: async (req, res) => {
             const query = req.query.q;
             if (!query || typeof(query) != "string") {
-                throw new Error("Missing parameter q");
+                sendGenericError(res, "Missing parameter q");
+                return;
             }
 
             let limit = req.query.limit;
@@ -24,7 +27,13 @@ export function searchEndpoint(connection: mysql.Connection): Route {
             const offsetInt = parseInt(offset);
 
             if (!isFinite(limitInt) || !isFinite(offsetInt)) {
-                throw new Error("Invalid number format");
+                sendGenericError(res, "Invalid number format");
+                return;
+            }
+
+            if (limitInt > 100) {
+                sendGenericError(res, "Limit should not be greater than 100!", limitInt);
+                return;
             }
 
             // passing as a integer causes crash??
