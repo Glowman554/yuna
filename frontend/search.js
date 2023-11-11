@@ -11,7 +11,7 @@ document.getElementById("page").innerText = page;
 
 const start_time = new Date().getTime();
 
-fetch("/search?q=" + query + "&offset=" + results_per_page * page + "&limit=" + results_per_page).then(res => res.json().then(res => {
+fetch("/api/search?q=" + query + "&offset=" + results_per_page * page + "&limit=" + results_per_page).then(res => res.json().then(res => {
 	if (res.error) {
 		console.log(res);
 		alert("Fetch failed! " + res.error);

@@ -5,7 +5,7 @@ import { sendGenericError } from "./error.ts";
 
 export function searchEndpoint(connection: mysql.Connection): Route {
     return {
-        path: "/search",
+        path: "/api/search",
         method: "GET",
         handler: async (req, res) => {
             const query = req.query.q;
