@@ -4,7 +4,12 @@ import mysql from "npm:mysql2@3.6.2/promise";
 import { setup } from "./database.ts";
 import { Route } from "./route.ts";
 import { loggingLayer } from "./logger.ts";
+
 import { searchEndpoint } from "./api/search.ts";
+
+import { userCreateEndpoint } from "./api/user/create.ts";
+import { userLogoutEndpoint } from "./api/user/logout.ts";
+import { userLoginEndpoint } from "./api/user/login.ts";
 
 import * as https from "node:https";
 
@@ -42,6 +47,10 @@ async function main() {
     app.use(express.static("../frontend"));
 
     add(app, searchEndpoint(connection));
+    
+    add(app, userCreateEndpoint(connection));
+    add(app, userLogoutEndpoint(connection));
+    add(app, userLoginEndpoint(connection));
 
     let sslConfig: SslConfig | undefined;
     try {
