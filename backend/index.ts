@@ -11,6 +11,7 @@ import { userCreateEndpoint } from "./api/user/create.ts";
 import { userLogoutEndpoint } from "./api/user/logout.ts";
 import { userLoginEndpoint } from "./api/user/login.ts";
 import { userDeleteEndpoint } from "./api/user/delete.ts";
+import { userInfoEndpoint } from "./api/user/info.ts";
 
 import * as https from "node:https";
 
@@ -53,6 +54,7 @@ async function main() {
     add(app, userLogoutEndpoint(connection));
     add(app, userLoginEndpoint(connection));
     add(app, userDeleteEndpoint(connection));
+    add(app, userInfoEndpoint(connection));
 
     let sslConfig: SslConfig | undefined;
     try {
