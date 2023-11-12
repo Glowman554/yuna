@@ -2,6 +2,7 @@ import { Route } from "../route.ts";
 import mysql from "npm:mysql2@3.6.2/promise";
 
 import { sendGenericError } from "./error.ts";
+import { resolveUserName } from "./user/common.ts";
 
 export function searchEndpoint(connection: mysql.Connection): Route {
     return {
@@ -35,6 +36,15 @@ export function searchEndpoint(connection: mysql.Connection): Route {
                 sendGenericError(res, "Limit should not be greater than 100!", limitInt);
                 return;
             }
+
+            const token = req.query.token;
+            if (token && typeof(token) == "string") {
+                const username = await resolveUserName(token, connection);
+                if (username) {
+                    await connection.execute("insert into `search_history` (username, search) values (?, ?)", [ username, query ]);
+                }
+            }
+    
 
             // passing as a integer causes crash??
             // thats a mysql bug lol
