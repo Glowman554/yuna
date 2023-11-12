@@ -38,6 +38,8 @@ fetch("/api/search?q=" + query + "&offset=" + results_per_page * page + "&limit=
 		const infoDiv = document.createElement("div");
 		infoDiv.setAttribute("class", "info");
 
+		const br = document.createElement("br");
+		
 		const link = document.createElement("small");
 		link.setAttribute("id", "link");
 		link.innerText = i.link;
@@ -64,6 +66,7 @@ fetch("/api/search?q=" + query + "&offset=" + results_per_page * page + "&limit=
 		uppDiv.appendChild(favi);
 		uppDiv.appendChild(infoDiv);
 		infoDiv.appendChild(link);
+		infoDiv.appendChild(br);
 		infoDiv.appendChild(title);
 		contDiv.appendChild(bottomDiv);
 		bottomDiv.appendChild(infoText);
