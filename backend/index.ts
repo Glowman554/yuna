@@ -69,9 +69,8 @@ async function main() {
             cert: Deno.readTextFileSync(sslConfig.cert)
         };
         https.createServer(options, app).listen(443);
-    } else {
-        app.listen(8000);
     }
+    app.listen(8000);
 }
 
 main();
