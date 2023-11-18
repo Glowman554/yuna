@@ -1,4 +1,7 @@
-const results_per_page = 100;
+import { apiCall } from "./lib/api.js";
+import { validateToken } from "./lib/account.js";
+
+const results_per_page = 40;
 
 const url = new URL(location.href).searchParams;
 
@@ -11,15 +14,16 @@ document.getElementById("page").innerText = page;
 
 const start_time = new Date().getTime();
 
-fetch("/api/search?q=" + query + "&offset=" + results_per_page * page + "&limit=" + results_per_page).then(res => res.json().then(res => {
+apiCall("/api/search", [
+	"q=" + query,
+	"offset=" + results_per_page * page,
+	"limit=" + results_per_page,
+], false, await validateToken()).then(res => {
 	if (res.error) {
 		console.log(res);
 		alert("Fetch failed! " + res.error);
 		return;
 	}
-
-
-
 
 	const resultCount = document.createElement("h4");
 	resultCount.innerText = res.length + " search results";
@@ -79,7 +83,7 @@ fetch("/api/search?q=" + query + "&offset=" + results_per_page * page + "&limit=
 
 	const time = new Date().getTime() - start_time;
 	document.getElementById("results_time").innerText = "Search took " + (time / 1000) + "s";
-}));
+});
 
 document.getElementById("prev").addEventListener('click', event => {
 	location.href = "/search.html?q=" + query + "&page=" + (page - 1);

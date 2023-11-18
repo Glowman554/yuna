@@ -1,9 +1,16 @@
+import { validateToken } from "./lib/account.js";
+import { apiCall } from "./lib/api.js";
 
 const checkbox = document.getElementById('loginORsignin');
 const login = document.getElementById('lbl-login');
 const signup = document.getElementById("lbl-signin");
 const form = document.getElementsByClassName("form");
 const submit = document.getElementById("submit");
+
+const username = document.getElementById("email");
+const password = document.getElementById("password");
+
+const logout = document.getElementById("logout");
 
 let boolLogin = true;
 
@@ -38,3 +45,38 @@ function errorUser() {
         }
     }
 }
+
+submit.onclick = () => {
+    if (checkbox.checked) {
+        apiCall("/api/user/create", [
+            "username=" + username.value,
+            "password=" + password.value
+        ]).then(res => {
+            localStorage.setItem("token", res.token);
+            location.reload();
+        });
+    } else {
+        apiCall("/api/user/login", [
+            "username=" + username.value,
+            "password=" + password.value
+        ]).then(res => {
+            localStorage.setItem("token", res.token);
+            location.reload();
+        });
+    }
+}
+
+logout.onclick = async () => {
+    apiCall("/api/user/logout", [], true, await validateToken()).then(res => {
+        localStorage.removeItem("token");
+        location.reload();
+    });
+}
+
+validateToken().then(token => {
+    if (token) {
+        document.getElementById("notLoggedIn").style = "display: none";
+    } else {
+        document.getElementById("loggedIn").style = "display: none";
+    }
+})
