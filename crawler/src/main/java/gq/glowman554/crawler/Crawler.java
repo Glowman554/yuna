@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import gq.glowman554.crawler.utils.HttpClient;
@@ -25,6 +26,33 @@ public class Crawler {
 			title = titles.get(0).text();
 		}
 
-		Main.getDatabaseConnection().insertPage(link, title, doc.html());
+
+		String description = null;
+		String keywords = null;
+		Elements metas = doc.getElementsByTag("meta");
+		for (int i = 0; i < metas.size(); i++) {
+			Element meta = metas.get(i);
+			if (meta.attr("name").equals("description") || meta.attr("property").equals("og:description")) {
+				description = meta.attr("content");
+			} else if (meta.attr("name").equals("keywords")) {
+				keywords = meta.attr("content");
+			}
+		}
+
+		String shortText = "";
+		Elements shortTextElements = doc.getElementsByTag("article");
+		if (shortTextElements.size() == 0) {
+			shortTextElements = doc.getElementsByTag("p");
+		}
+		for (int i = 0; i < shortTextElements.size(); i++) {
+			shortText += shortTextElements.get(i).text() + " ";
+			if (shortText.length() > 175) {
+				break;
+			}
+		}
+
+		shortText = shortText.substring(0, Math.min(shortText.length(), 175)) + "...";
+
+		Main.getDatabaseConnection().insertPage(link, title, doc.text(), description, keywords, shortText);
 	}
 }

@@ -48,7 +48,7 @@ export function searchEndpoint(connection: mysql.Connection): Route {
 
             // passing as a integer causes crash??
             // thats a mysql bug lol
-            const [rows, _fields] = await connection.execute(`SELECT site_id, link, title, MATCH (title, link, text) AGAINST (?) as score FROM sites WHERE MATCH (title, link, text) AGAINST (?) ORDER BY score DESC LIMIT ? OFFSET ?`,
+            const [rows, _fields] = await connection.execute(`SELECT site_id, link, title, description, keywords, shortText, MATCH (title, link, text, keywords) AGAINST (?) as score FROM sites WHERE MATCH (title, link, text, keywords) AGAINST (?) ORDER BY score DESC LIMIT ? OFFSET ?`,
                [ query, query, String(limitInt), String(offsetInt) ]
             );
 
