@@ -23,6 +23,7 @@ fetch("/api/search?q=" + query + "&offset=" + results_per_page * page + "&limit=
 
 	const resultCount = document.createElement("h4");
 	resultCount.innerText = res.length + " search results";
+	// warum wird das erst am Ende angefügt?
 	document.getElementById("results").appendChild(resultCount);
 
 	const result_div = document.getElementById("Resultinp");

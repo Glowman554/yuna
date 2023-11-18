@@ -21,7 +21,7 @@
 	<main>
 		<form id="search_form">
 			<input spellcheck="false" autocorrect="on" title="Enter your search" list="most-searched" type="search"
-				 inputmode="search" id="search"> <!--enterkeyhint="Search"-->
+				inputmode="search" id="search"> <!--enterkeyhint="Search"-->
 		</form>
 		<!-- not for end use - bcause not fkn stylable -->
 		<datalist id="most-searched">
@@ -50,12 +50,15 @@
 				</div>
 			</div>
 
-			<p id="results"></p>
 			<p id="results_time"></p>
 
-			<button id="prev" style="width: fit-content;">Previous</button>
-			<div id="page" class="inline">0</div>
-			<button id="next" style="width: fit-content;">Next</button>
+			<!-- <p id="results"></p> -->
+
+			<div class="site_switch">
+				<button id="prev" style="width: fit-content;">Previous</button>
+				<div id="page" class="inline">0</div>
+				<button id="next" style="width: fit-content;">Next</button>
+			</div>
 		</div>
 	</main>
 	<footer id="footer">

@@ -191,7 +191,7 @@ footer * {
 #footer-tip {
     width: 3rem;
     height: 3rem;
-    clip-path: polygon(74% 7%, 90% 20%, 100% 40%, 100% 48%, 100% 100%, 0 100%, 0 40%, 10% 20%, 26% 7%, 50% 0);
+    border-radius: 50rem 50rem 0 0;   
     background-color: var(--primary);
     position: absolute;
     top: -3rem;

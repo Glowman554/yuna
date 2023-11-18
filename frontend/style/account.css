@@ -1,0 +1,107 @@
+:root {
+    --label-hover: linear-gradient(90deg, var(--accent), transparent 60%);
+    --hover-gradient-1: var(--accent);
+    --hover-gradient-2: transparent;
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --background-gradient-1: rgba(238, 174, 202, 1);
+        --background-gradient-2: rgba(148, 187, 233, 1);
+    }
+}
+
+
+body::before,
+body::after {
+    position: absolute;
+    left: 0;
+    top: 0;
+    content: '';
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 40%;
+}
+
+body::before {
+    filter: url(#noiseFilter);
+
+
+    background: radial-gradient(circle, var(--background-gradient-1) 0%, var(--background-gradient-2) 100%);
+    background-size: 400% 400%;
+    animation: gradient 30s ease infinite;
+}
+
+.main {
+    background-color: rgba(0, 0, 0, 0.09);
+    border: 4px solid rgba(255, 255, 255, 0.068);
+    backdrop-filter: blur(4px);
+    border-radius: var(--border-radius);
+    width: 70%;
+    height: calc(70%);
+    padding: 1.75rem;
+    z-index: 9000;
+
+    display: flex;
+}
+
+.rect {
+    position: absolute;
+    left: 20%;
+    top: 30%;
+    background-color: red;
+    width: 5rem;
+    height: 5rem;
+    z-index: -3;
+}
+
+fieldset {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    flex-direction: column;
+    border: 0;
+    border-right: 4px solid var(--accent);
+    padding: 1rem;
+    min-width: fit-content;
+    width: 20%;
+}
+
+fieldset label input {
+    visibility: hidden; /* to test, hidden -> visible*/
+
+}
+
+fieldset label {
+    text-align: center;
+    border-left: 6px solid var(--accent);
+    margin: 0.5rem auto;
+    padding: 0.4rem;
+    width: 100%;
+}
+
+fieldset label:hover {
+    background: linear-gradient(90deg, var(--accent), transparent 28%);
+}
+
+
+fieldset div label {
+    border-bottom: 1px solid var(--accent);
+
+}
+
+
+.content {
+    width: 100%;
+    margin: 1rem;
+    padding: 1rem;
+
+    /* wip! -> placeholder */
+    border: 2px solid red;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    font-size: 3rem;
+    color: red;
+}
