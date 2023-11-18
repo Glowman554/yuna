@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import gq.glowman554.crawler.constrain.ConstrainManager;
+import gq.glowman554.crawler.constrain.impl.GithubOnlyMainRepo;
 import gq.glowman554.crawler.constrain.impl.WikipediaConstrain;
 import gq.glowman554.crawler.constrain.impl.WikisourceConstrain;
 import gq.glowman554.crawler.constrain.impl.WiktionaryConstrain;
@@ -17,6 +18,7 @@ public class LinkQueue {
 		validator.add(new WikipediaConstrain());
 		validator.add(new WiktionaryConstrain());
 		validator.add(new WikisourceConstrain());
+		validator.add(new GithubOnlyMainRepo());
 	}
 	
 	private ArrayList<String> current_links = new ArrayList<>();

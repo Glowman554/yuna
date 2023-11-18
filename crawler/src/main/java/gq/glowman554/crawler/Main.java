@@ -40,7 +40,7 @@ public class Main {
 					if (!databaseConnection.isCrawled(link) || linkQueue.len() == 0) {
 						Crawler.crawl(link);
 					}
-				} catch (IOException | IllegalStateException e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 					try {
 						Thread.sleep(1000);

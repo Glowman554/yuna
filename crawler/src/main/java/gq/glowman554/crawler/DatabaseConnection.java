@@ -36,17 +36,20 @@ public class DatabaseConnection {
 		s.close();
 	}
 
-	public void insertPage(String url, String title, String text) {
+	public void insertPage(String url, String title, String text, String description, String keywords, String shortText) {
 		System.out.println("Inserting page: " + url);
 		try {
 			if (isCrawled(url)) {
 				return;
 			}
-	 		PreparedStatement s = connect.prepareStatement("INSERT IGNORE INTO `sites` (link, title, text) VALUES (?, ?, ?)");
+	 		PreparedStatement s = connect.prepareStatement("INSERT IGNORE INTO `sites` (link, title, text, description, keywords, shortText) VALUES (?, ?, ?, ?, ?, ?)");
 
 	 		s.setString(1, url);
 	 		s.setString(2, title.replace("\n", ""));
 	 		s.setString(3, text.replace("\n", ""));
+			s.setString(4, description);
+			s.setString(5, keywords);
+			s.setString(6, shortText);
 
 	 		s.executeUpdate();
 	 		s.close();
