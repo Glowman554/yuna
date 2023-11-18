@@ -99,9 +99,21 @@ fieldset div label {
 
     /* wip! -> placeholder */
     border: 2px solid red;
-    align-items: center;
+    /* align-items: center;
     justify-content: center;
     display: flex;
     font-size: 3rem;
-    color: red;
+    color: red; */
+}
+
+.content * {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.content .profile {
+    border: 3px solid blue;
+    width: 100%;
+    height: calc(100% - 3px);
 }
