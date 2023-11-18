@@ -9,7 +9,8 @@ public class GithubOnlyMainRepo implements Constrain<String> {
     private ArrayList<String> disallowed = new ArrayList<>();
 
     public GithubOnlyMainRepo() {
-        disallowed.add("/fork");
+        disallowed.add("/fork"); 
+        disallowed.add("/forks");
         disallowed.add("/stargazers");
         disallowed.add("/activity");
         disallowed.add("/issues");
@@ -24,6 +25,7 @@ public class GithubOnlyMainRepo implements Constrain<String> {
         disallowed.add("/watchers");
         disallowed.add("/releases");
         disallowed.add("/search");
+        disallowed.add("/contributors");
     }
 
     @Override
