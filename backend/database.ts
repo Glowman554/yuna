@@ -54,6 +54,15 @@ CREATE TABLE IF NOT EXISTS \`user_sessions\` (
   CONSTRAINT \`user_sessions_FK\` FOREIGN KEY (\`username\`) REFERENCES \`users\` (\`username\`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+CREATE TABLE IF NOT EXISTS \`crawl_requests\` (
+  \`id\` int NOT NULL AUTO_INCREMENT,
+  \`username\` varchar(100) DEFAULT NULL,
+  \`link\` text NOT NULL,
+  \`status\` varchar(100) NOT NULL,
+  PRIMARY KEY(\`id\`),
+  CONSTRAINT \`crawl_requests_FK\` FOREIGN KEY (\`username\`) REFERENCES \`users\` (\`username\`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 CREATE TABLE IF NOT EXISTS \`background_history\` (
 	id int auto_increment NOT NULL,
 	url text NULL,

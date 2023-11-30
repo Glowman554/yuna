@@ -6,6 +6,7 @@ import { Route } from "./route.ts";
 import { loggingLayer } from "./logger.ts";
 
 import { searchEndpoint } from "./api/search.ts";
+import { crawlEndpoint } from "./api/crawl.ts";
 
 import { userCreateEndpoint } from "./api/user/create.ts";
 import { userLogoutEndpoint } from "./api/user/logout.ts";
@@ -49,6 +50,7 @@ async function main() {
     app.use(express.static("../frontend"));
 
     add(app, searchEndpoint(connection));
+    add(app, crawlEndpoint(connection));
     
     add(app, userCreateEndpoint(connection));
     add(app, userLogoutEndpoint(connection));

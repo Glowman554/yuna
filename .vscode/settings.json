@@ -1,5 +1,5 @@
 {
-    "deno.enable": false,
+    "deno.enable": true,
     "deno.lint": true,
     "deno.unstable": true,
     "java.configuration.updateBuildConfiguration": "interactive"

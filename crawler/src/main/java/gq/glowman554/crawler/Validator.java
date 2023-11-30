@@ -26,7 +26,7 @@ public class Validator {
 
     public static String rebuildLink(String link) throws MalformedURLException {
         URL url = new URL(link);
-			
+		
 		if (!(FileUtils.getFileExtension(url.getPath()).equals("html") || FileUtils.getFileExtension(url.getPath()).equals(""))) {
 			return null;
 		}
