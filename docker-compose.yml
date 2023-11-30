@@ -14,6 +14,13 @@ services:
       - "default"
     restart: always
 
+  crawler:
+    build: crawler
+    networks:
+      - "production_db_default"
+      - "default"
+    restart: always
+
 networks:
   default:
   production_db_default:

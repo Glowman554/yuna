@@ -10,14 +10,19 @@ import org.jsoup.select.Elements;
 import gq.glowman554.crawler.utils.HttpClient;
 
 public class Crawler {
-	public static void crawl(String link) throws IOException {
+
+	public static CrawlerStatus crawl(String link) throws IOException {
 		Document doc = Jsoup.parse(HttpClient.get(link), link);
 
 		Elements links = doc.getElementsByTag("a");
 
-		for (int i = 0; i < links.size(); i++) {
-			String link_s = links.get(i).absUrl("href");
-			Main.getLinkQueue().insert(link_s.split("#")[0]);
+		LinkQueue queue = Main.getLinkQueue();
+
+		if (queue != null) {
+			for (int i = 0; i < links.size(); i++) {
+				String link_s = links.get(i).absUrl("href");
+				queue.insert(link_s.split("#")[0]);
+			}
 		}
 
 		Elements titles = doc.getElementsByTag("title");
@@ -53,6 +58,17 @@ public class Crawler {
 
 		shortText = shortText.substring(0, Math.min(shortText.length(), 175)) + "...";
 
-		Main.getDatabaseConnection().insertPage(link, title, doc.text(), description, keywords, shortText);
+		if (Main.getDatabaseConnection().isCrawled(link)) {
+			Main.getDatabaseConnection().updatePage(link, title, doc.text(), description, keywords, shortText);
+			return CrawlerStatus.UPDATED;
+		} else {
+			Main.getDatabaseConnection().insertPage(link, title, doc.text(), description, keywords, shortText);
+			return CrawlerStatus.INSERTED;
+		}
+	}
+
+	public enum CrawlerStatus {
+		INSERTED,
+		UPDATED
 	}
 }

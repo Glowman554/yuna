@@ -1,9 +1,13 @@
 package gq.glowman554.crawler;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.sql.SQLException;
 
+import gq.glowman554.crawler.api.CrawlEndpoint;
 import gq.glowman554.crawler.utils.ThreadHelper;
+import spark.Spark;
 
 public class Main {
 
@@ -15,23 +19,44 @@ public class Main {
 	private static String db_password = System.getenv("DB_PASSWORD");
 	private static String db = System.getenv("DB");
 
-	private static int threads = Integer.parseInt(System.getenv("THREADS"));
+	private static int threads;
 
 
 	public static void main(String[] args) throws ClassNotFoundException, SQLException, IOException, IllegalArgumentException, IllegalAccessException {
+		databaseConnection = new DatabaseConnection(db_url, db_user, db_password, db);
+
+		if (System.getenv("PORT") != null) {
+			runServer();
+		} else {
+			runStandalone();
+		}
+	}
+
+	public static void runServer() {
+		Spark.exception(Exception.class, (e, request, response) -> {
+			e.printStackTrace();
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw, true);
+
+			e.printStackTrace(pw);
+
+			response.status(500);
+			response.body("<h1>Internal server error!</h1>\n<span style=\"white-space: pre-line\"><code>" + sw.getBuffer().toString() + "</code></span>");
+		});
+
+		Spark.port(Integer.parseInt(System.getenv("PORT")));
+		
+		Spark.get("/api/crawl", new CrawlEndpoint());
+	}
+
+	public static void runStandalone() throws ClassNotFoundException, SQLException, IOException {
 		linkQueue = new LinkQueue();
 
 		for (String page : System.getenv("INITIAL").split(",")) {
 			linkQueue.insert(page);
 		}
 
-		databaseConnection = new DatabaseConnection(db_url, db_user, db_password, db);
-
-		run();
-	}
-
-
-	public static void run() throws ClassNotFoundException, SQLException, IOException {
+		threads = Integer.parseInt(System.getenv("THREADS"));
 
 		new ThreadHelper(threads, () -> {
 			while (true) {

@@ -1,26 +1,9 @@
 package gq.glowman554.crawler;
 
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 
-import gq.glowman554.crawler.constrain.ConstrainManager;
-import gq.glowman554.crawler.constrain.impl.GithubOnlyMainRepo;
-import gq.glowman554.crawler.constrain.impl.WikipediaConstrain;
-import gq.glowman554.crawler.constrain.impl.WikisourceConstrain;
-import gq.glowman554.crawler.constrain.impl.WiktionaryConstrain;
-import gq.glowman554.crawler.utils.FileUtils;
-
 public class LinkQueue {
-	private ConstrainManager<String> validator = new ConstrainManager<>();
-
-	public LinkQueue() {
-		validator.add(new WikipediaConstrain());
-		validator.add(new WiktionaryConstrain());
-		validator.add(new WikisourceConstrain());
-		validator.add(new GithubOnlyMainRepo());
-	}
-	
 	private ArrayList<String> current_links = new ArrayList<>();
 
 	public String fetch() {
@@ -44,7 +27,7 @@ public class LinkQueue {
 	}
 
 	public void insert(String link) {
-		if (validator.compute(link)) {
+		if (Validator.getValidator().compute(link)) {
 			return;
 		}
 
@@ -54,13 +37,10 @@ public class LinkQueue {
 		}
 
 		try {
-			URL url = new URL(link);
-			
-			if (!(FileUtils.getFileExtension(url.getPath()).equals("html") || FileUtils.getFileExtension(url.getPath()).equals(""))) {
+			link = Validator.rebuildLink(link);
+			if (link == null) {
 				return;
 			}
-
-			link = url.getProtocol() + "://" + url.getHost() + url.getPath();
 		} catch (MalformedURLException e1) {
 			e1.printStackTrace();
 			return;
