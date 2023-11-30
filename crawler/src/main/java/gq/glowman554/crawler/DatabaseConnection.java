@@ -36,12 +36,25 @@ public class DatabaseConnection {
 		s.close();
 	}
 
+	private int linkToId(String link) throws SQLException {
+		PreparedStatement s = connect.prepareStatement("SELECT `site_id` FROM `sites` WHERE link = ?");
+		s.setString(1, link);
+		
+		ResultSet rs = s.executeQuery();
+		
+		rs.next();
+		int result = rs.getInt("site_id");
+		
+		rs.close();
+		s.close();
+		
+		return result;
+	}
+	
+
 	public void insertPage(String url, String title, String text, String description, String keywords, String shortText) {
 		System.out.println("Inserting page: " + url);
 		try {
-			if (isCrawled(url)) {
-				return;
-			}
 	 		PreparedStatement s = connect.prepareStatement("INSERT IGNORE INTO `sites` (link, title, text, description, keywords, shortText) VALUES (?, ?, ?, ?, ?, ?)");
 
 	 		s.setString(1, url);
@@ -57,6 +70,26 @@ public class DatabaseConnection {
 	 		e1.printStackTrace();
 	 	}
 	}
+
+	public void updatePage(String url, String title, String text, String description, String keywords, String shortText) {
+		try {
+			PreparedStatement s = connect.prepareStatement("UPDATE `sites` SET link = ?, title = ?, text = ?, description = ?, keywords = ?, shortText = ? WHERE site_id = ?");
+
+	 		s.setString(1, url);
+	 		s.setString(2, title.replace("\n", ""));
+	 		s.setString(3, text.replace("\n", ""));
+			s.setString(4, description);
+			s.setString(5, keywords);
+			s.setString(6, shortText);
+			s.setInt(7, linkToId(url));
+
+			s.executeUpdate();
+			s.close();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+	}
+
 	
 	public boolean isCrawled(String link) {
 		boolean return_val = false;
@@ -68,7 +101,7 @@ public class DatabaseConnection {
 			ResultSet rs = s.executeQuery();
 
 			if (rs.next()) {
-				System.out.println(link + " already in db!");
+				// System.out.println(link + " already in db!");
 				return_val = true;
 			}
 
