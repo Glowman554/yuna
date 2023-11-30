@@ -14,6 +14,7 @@ export function crawlEndpoint(connection: mysql.Connection): Route {
         const result = await fetch("http://crawler/api/crawl?url=" + url);
         if (result.status != 200) {
             sendGenericError(res, "Something went wrong!");
+            return;
         }
         const status = await result.text();
 
