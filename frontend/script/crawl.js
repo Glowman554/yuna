@@ -16,5 +16,7 @@ crawl.onclick = async () => {
         "url=" + url.value
     ], true, token).then(res => {
         alert(res.status);
+    }).catch(reason => {
+       alert(reason); 
     });
 }
