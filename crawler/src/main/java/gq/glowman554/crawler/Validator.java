@@ -36,7 +36,7 @@ public class Validator {
 		}
 
 		String finalLink = url.getProtocol() + "://" + url.getHost() + url.getPath();
-        if (!finalLink.endsWith("/")) {
+        if (!finalLink.endsWith("/") && !finalLink.contains(".")) {
             finalLink += "/";
         }
 
