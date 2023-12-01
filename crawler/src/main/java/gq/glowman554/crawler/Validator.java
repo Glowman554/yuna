@@ -6,6 +6,7 @@ import java.net.URL;
 import gq.glowman554.crawler.constrain.ConstrainManager;
 import gq.glowman554.crawler.constrain.impl.GithubOnlyMainRepo;
 import gq.glowman554.crawler.constrain.impl.GithubUserContentConstrain;
+import gq.glowman554.crawler.constrain.impl.UnsplashConstrain;
 import gq.glowman554.crawler.constrain.impl.WikipediaConstrain;
 import gq.glowman554.crawler.constrain.impl.WikisourceConstrain;
 import gq.glowman554.crawler.constrain.impl.WiktionaryConstrain;
@@ -20,6 +21,7 @@ public class Validator {
 		validator.add(new WikisourceConstrain());
 		validator.add(new GithubOnlyMainRepo());
         validator.add(new GithubUserContentConstrain());
+        validator.add(new UnsplashConstrain());
     }
 
     public static ConstrainManager<String> getValidator() {
