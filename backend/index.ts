@@ -7,6 +7,7 @@ import { loggingLayer } from "./logger.ts";
 
 import { searchEndpoint } from "./api/search.ts";
 import { crawlEndpoint } from "./api/crawl.ts";
+import { endpointsEndpoint } from "./api/endpoints.ts";
 
 import { userCreateEndpoint } from "./api/user/create.ts";
 import { userLogoutEndpoint } from "./api/user/logout.ts";
@@ -33,6 +34,8 @@ interface SslConfig {
     cert: string;
 }
 
+export const app: Express = express();
+
 async function main() {
     const connection = await mysql.createPool({...JSON.parse(Deno.readTextFileSync(Deno.args[0] + "database.json")),
         waitForConnections: true,
@@ -44,13 +47,12 @@ async function main() {
     await setup(connection);
 
 
-    const app = express();
-
     app.use(loggingLayer);
     app.use(express.static("../frontend"));
 
     add(app, searchEndpoint(connection));
     add(app, crawlEndpoint(connection));
+    add(app, endpointsEndpoint());
     
     add(app, userCreateEndpoint(connection));
     add(app, userLogoutEndpoint(connection));
