@@ -8,5 +8,5 @@ public class UnsplashConstrain implements Constrain<String> {
     public boolean compute(String input) {
         return input.contains("unsplash") && input.contains("download");
     }
-    
+
 }

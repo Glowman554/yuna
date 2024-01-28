@@ -1,15 +1,15 @@
 package gq.glowman554.crawler.constrain.impl;
 
-import java.util.ArrayList;
-
 import gq.glowman554.crawler.constrain.Constrain;
+
+import java.util.ArrayList;
 
 public class GithubOnlyMainRepo implements Constrain<String> {
 
-    private ArrayList<String> disallowed = new ArrayList<>();
+    private final ArrayList<String> disallowed = new ArrayList<>();
 
     public GithubOnlyMainRepo() {
-        disallowed.add("/fork"); 
+        disallowed.add("/fork");
         disallowed.add("/forks");
         disallowed.add("/stargazers");
         disallowed.add("/activity");
@@ -39,5 +39,5 @@ public class GithubOnlyMainRepo implements Constrain<String> {
         }
         return false;
     }
-    
+
 }

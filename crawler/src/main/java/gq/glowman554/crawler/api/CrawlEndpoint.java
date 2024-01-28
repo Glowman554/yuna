@@ -12,9 +12,9 @@ public class CrawlEndpoint implements Route {
     public Object handle(Request req, Response res) throws Exception {
         String url = req.queryParams("url");
 
-		if (url == null) {
-			throw new Exception("Expected url parameter");
-		}
+        if (url == null) {
+            throw new Exception("Expected url parameter");
+        }
 
         if (Validator.getValidator().compute(url)) {
             return "REJECTED VALIDATOR";
@@ -27,5 +27,5 @@ public class CrawlEndpoint implements Route {
             }
         }
     }
-    
+
 }

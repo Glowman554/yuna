@@ -4,61 +4,61 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 public class LinkQueue {
-	private ArrayList<String> current_links = new ArrayList<>();
+    private final ArrayList<String> current_links = new ArrayList<>();
 
-	public String fetch() {
-		String next;
-		synchronized (current_links) {
-			if (current_links.size() == 0) {
-				throw new IllegalStateException("Link list size == 0");
-			}
+    public String fetch() {
+        String next;
+        synchronized (current_links) {
+            if (current_links.isEmpty()) {
+                throw new IllegalStateException("Link list size == 0");
+            }
 
-			next = current_links.get(0);
-			current_links.remove(0);
-		}
-		
-		return next;
-	}
+            next = current_links.get(0);
+            current_links.remove(0);
+        }
 
-	public int len() {
-		synchronized (current_links) {
-			return current_links.size();
-		}
-	}
+        return next;
+    }
 
-	public void insert(String link) {
-		if (Validator.getValidator().compute(link)) {
-			return;
-		}
+    public int len() {
+        synchronized (current_links) {
+            return current_links.size();
+        }
+    }
 
-		if (link.equals("") || !(link.startsWith("https://") || link.startsWith("http://"))) {
-			// System.out.println("Dropping: " + link);
-			return;
-		}
+    public void insert(String link) {
+        if (Validator.getValidator().compute(link)) {
+            return;
+        }
 
-		try {
-			link = Validator.rebuildLink(link);
-			if (link == null) {
-				return;
-			}
-		} catch (MalformedURLException e1) {
-			e1.printStackTrace();
-			return;
-		}
-		
-		
-		synchronized (current_links) {
-			if (current_links.size() >= 100000) {
-				// System.out.println("queue size limint reached. dropping: " + link);
-				return;
-			}
-			
-			if (current_links.contains(link)) {
-				// System.out.println("Not inserting duplicate string: " + link);
-				return;
-			}
+        if (link.isEmpty() || !(link.startsWith("https://") || link.startsWith("http://"))) {
+            // System.out.println("Dropping: " + link);
+            return;
+        }
 
-			current_links.add(link);
-		}
-	}
+        try {
+            link = Validator.rebuildLink(link);
+            if (link == null) {
+                return;
+            }
+        } catch (MalformedURLException e1) {
+            e1.printStackTrace();
+            return;
+        }
+
+
+        synchronized (current_links) {
+            if (current_links.size() >= 100000) {
+                // System.out.println("queue size limint reached. dropping: " + link);
+                return;
+            }
+
+            if (current_links.contains(link)) {
+                // System.out.println("Not inserting duplicate string: " + link);
+                return;
+            }
+
+            current_links.add(link);
+        }
+    }
 }

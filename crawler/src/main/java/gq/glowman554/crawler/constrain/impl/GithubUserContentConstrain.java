@@ -8,5 +8,5 @@ public class GithubUserContentConstrain implements Constrain<String> {
     public boolean compute(String input) {
         return input.contains("githubusercontent");
     }
-    
+
 }
