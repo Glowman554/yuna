@@ -11,7 +11,7 @@ import java.io.IOException;
 public class Crawler {
 
     public static CrawlerStatus crawl(String link) throws IOException {
-        boolean proxy = link.contains(".onion");
+        boolean proxy = link.contains(".onion") || "true".equals(System.getenv("PROXY_FORCE"));
         Document doc = Jsoup.parse(HttpClient.get(link, proxy), link);
 
         Elements links = doc.getElementsByTag("a");
@@ -43,25 +43,25 @@ public class Crawler {
             }
         }
 
-        String shortText = "";
+        StringBuilder shortText = new StringBuilder();
         Elements shortTextElements = doc.getElementsByTag("article");
         if (shortTextElements.isEmpty()) {
             shortTextElements = doc.getElementsByTag("p");
         }
-        for (int i = 0; i < shortTextElements.size(); i++) {
-            shortText += shortTextElements.get(i).text() + " ";
+        for (Element shortTextElement : shortTextElements) {
+            shortText.append(shortTextElement.text()).append(" ");
             if (shortText.length() > 175) {
                 break;
             }
         }
 
-        shortText = shortText.substring(0, Math.min(shortText.length(), 175)) + "...";
+        shortText = new StringBuilder(shortText.substring(0, Math.min(shortText.length(), 175)) + "...");
 
         if (Main.getDatabaseConnection().isCrawled(link)) {
-            Main.getDatabaseConnection().updatePage(link, title, doc.text(), description, keywords, shortText);
+            Main.getDatabaseConnection().updatePage(link, title, doc.text(), description, keywords, shortText.toString());
             return CrawlerStatus.UPDATED;
         } else {
-            Main.getDatabaseConnection().insertPage(link, title, doc.text(), description, keywords, shortText);
+            Main.getDatabaseConnection().insertPage(link, title, doc.text(), description, keywords, shortText.toString());
             return CrawlerStatus.INSERTED;
         }
     }
