@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS \`crawl_requests\` (
   \`link\` text NOT NULL,
   \`status\` varchar(100) NOT NULL,
   PRIMARY KEY(\`id\`),
-  CONSTRAINT \`crawl_requests_FK\` FOREIGN KEY (\`username\`) REFERENCES \`users\` (\`username\`)
+  CONSTRAINT \`crawl_requests_FK\` FOREIGN KEY (\`username\`) REFERENCES \`users\` (\`username\`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE IF NOT EXISTS \`background_history\` (
