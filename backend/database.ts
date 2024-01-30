@@ -49,6 +49,7 @@ CREATE TABLE IF NOT EXISTS \`search_history\` (
 CREATE TABLE IF NOT EXISTS \`user_sessions\` (
   \`username\` varchar(100) DEFAULT NULL,
   \`token\` varchar(100) NOT NULL,
+  \`timestamp\` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (\`token\`),
   KEY \`user_sessions_FK\` (\`username\`),
   CONSTRAINT \`user_sessions_FK\` FOREIGN KEY (\`username\`) REFERENCES \`users\` (\`username\`) ON DELETE CASCADE ON UPDATE CASCADE
