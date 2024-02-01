@@ -2,6 +2,7 @@ package gq.glowman554.crawler;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class LinkQueue {
     private final ArrayList<String> current_links = new ArrayList<>();
@@ -59,6 +60,12 @@ public class LinkQueue {
             }
 
             current_links.add(link);
+        }
+    }
+
+    public void shuffle() {
+        synchronized (current_links) {
+            Collections.shuffle(current_links);
         }
     }
 }

@@ -1,6 +1,10 @@
 package gq.glowman554.crawler;
 
 import gq.glowman554.crawler.api.CrawlEndpoint;
+import gq.glowman554.crawler.robots.RobotParser;
+import gq.glowman554.crawler.robots.RobotResult;
+import gq.glowman554.crawler.robots.RobotScope;
+import gq.glowman554.crawler.utils.HttpClient;
 import gq.glowman554.crawler.utils.ThreadHelper;
 import spark.Spark;
 
@@ -18,7 +22,9 @@ public class Main {
     private static LinkQueue linkQueue;
     private static DatabaseConnection databaseConnection;
 
-    public static void main(String[] args) throws ClassNotFoundException, SQLException, IOException, IllegalArgumentException, IllegalAccessException {
+    public static void main(String[] args) throws Exception {
+        runTest();
+
         databaseConnection = new DatabaseConnection(db_url, db_user, db_password, db);
 
         if (System.getenv("PORT") != null) {
@@ -26,6 +32,9 @@ public class Main {
         } else {
             runStandalone();
         }
+    }
+
+    public static void runTest() throws Exception {
     }
 
     public static void runServer() {
@@ -73,7 +82,7 @@ public class Main {
 
 
         while (true) {
-            System.out.printf("queue size: %d%n", linkQueue.len());
+            System.out.printf("queue size: %d, robots cache size: %d%n", linkQueue.len(), Crawler.getRobotsCache().size());
 
             if (linkQueue.len() == 0) {
                 linkQueue.insert(databaseConnection.fetchRandomSite());

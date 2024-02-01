@@ -1,5 +1,6 @@
 package gq.glowman554.crawler.utils;
 
+import gq.glowman554.crawler.Main;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -14,6 +15,7 @@ public class HttpClient {
     private static final String proxy_port = System.getenv("PROXY_PORT");
     private static final String proxy_host = System.getenv("PROXY_HOST");
 
+    private static final String userAgent = "YunaBot";
 
     public static String get(String _url, Map<String, String> headers, boolean proxy) throws IOException {
 
@@ -29,13 +31,19 @@ public class HttpClient {
 
         req.url(_url);
 
-        req.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
+        req.addHeader("User-Agent", "YunaBot");
 
         for (String key : headers.keySet()) {
             req.addHeader(key, headers.get(key));
         }
 
         try (Response res = client.newCall(req.build()).execute()) {
+            if (!res.isSuccessful()) {
+                if (res.code() == 429) {
+                    Main.getLinkQueue().shuffle();
+                }
+                throw new IOException("HTTP " + res.code() + " (" + _url + ")");
+            }
 
             assert res.body() != null;
             return res.body().string();
@@ -49,5 +57,9 @@ public class HttpClient {
 
     public static String get(String _url, boolean proxy) throws IOException {
         return get(_url, new HashMap<>(), proxy);
+    }
+
+    public static String getUserAgent() {
+        return userAgent;
     }
 }
