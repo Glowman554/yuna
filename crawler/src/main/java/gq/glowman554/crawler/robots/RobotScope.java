@@ -66,22 +66,18 @@ public class RobotScope {
 
         String path = url.getPath();
 
-        for (String disallow : disallows) {
-            if (matches(path, disallow)) {
-                return false;
-            }
-        }
-
-        if (allows.isEmpty()) {
-            return true;
-        }
-
         for (String allow : allows) {
             if (matches(path, allow)) {
                 return true;
             }
         }
 
-        return false;
+        for (String disallow : disallows) {
+            if (matches(path, disallow)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
