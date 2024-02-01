@@ -57,7 +57,7 @@ public class Crawler {
             robots = robotsCache.get(url.getHost());
         } else {
             try {
-                String robotsString = get(url.getProtocol() + "://" + url.getHost() + "/robots.txt");
+                String robotsString = get(RobotParser.link(url));
                 robots = RobotParser.parse(robotsString, url.getHost());
             } catch (IOException ignored) {
             }

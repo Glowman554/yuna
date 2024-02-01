@@ -1,5 +1,6 @@
 package gq.glowman554.crawler.robots;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -49,5 +50,14 @@ public class RobotParser {
         }
 
         return new RobotResult(sitemaps, scopes);
+    }
+
+    public static String link(URL url) {
+        String finalLink = url.getProtocol() + "://" + url.getHost();
+        if (url.getPort() != -1) {
+            finalLink += ":" + url.getPort();
+        }
+        finalLink += "/robots.txt";
+        return finalLink;
     }
 }
