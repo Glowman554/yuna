@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS \`users\` (
   \`password_hash\` varchar(100) DEFAULT NULL,
   \`admin\` tinyint(1) DEFAULT NULL,
   \`premium\` tinyint(1) DEFAULT NULL,
+  \`keep_history\` tinyint(1) DEFAULT '1',
   \`pfp_url\` text,
   PRIMARY KEY (\`username\`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
