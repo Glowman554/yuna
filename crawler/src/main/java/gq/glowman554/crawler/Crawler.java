@@ -53,15 +53,16 @@ public class Crawler {
 
         URL url = new URL(link);
         RobotResult robots = null;
-        if (robotsCache.containsKey(url.getHost())) {
-            robots = robotsCache.get(url.getHost());
+        String robotsCacheKey = url.getHost() + ":" + url.getPort();
+        if (robotsCache.containsKey(robotsCacheKey)) {
+            robots = robotsCache.get(robotsCacheKey);
         } else {
             try {
                 String robotsString = get(RobotParser.link(url));
                 robots = RobotParser.parse(robotsString, url.getHost());
             } catch (IOException ignored) {
             }
-            robotsCache.put(url.getHost(), robots);
+            robotsCache.put(robotsCacheKey, robots);
 
             if (robots != null) {
                 for (String sitemap : robots.getSitemaps()) {
