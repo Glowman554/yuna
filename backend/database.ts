@@ -77,6 +77,7 @@ CREATE TABLE IF NOT EXISTS \`payments\` (
   \`method\` varchar(100) NOT NULL,
   \`amount\` float DEFAULT NULL,
   \`username\` varchar(100) NOT NULL,
+  \`address\` text NOT NULL,
   PRIMARY KEY (\`id\`),
   KEY \`payments_users_FK\` (\`username\`),
   CONSTRAINT \`payments_users_FK\` FOREIGN KEY (\`username\`) REFERENCES \`users\` (\`username\`) ON DELETE CASCADE ON UPDATE CASCADE
