@@ -71,6 +71,16 @@ CREATE TABLE IF NOT EXISTS \`background_history\` (
 	\`time\` DATETIME DEFAULT CURRENT_TIMESTAMP NULL,
 	CONSTRAINT backgound_history_PK PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE IF NOT EXISTS \`payments\` (
+  \`id\` int NOT NULL AUTO_INCREMENT,
+  \`method\` varchar(100) NOT NULL,
+  \`amount\` float DEFAULT NULL,
+  \`username\` varchar(100) NOT NULL,
+  PRIMARY KEY (\`id\`),
+  KEY \`payments_users_FK\` (\`username\`),
+  CONSTRAINT \`payments_users_FK\` FOREIGN KEY (\`username\`) REFERENCES \`users\` (\`username\`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 `;
 
 export async function setup(connection: mysql.Connection) {
