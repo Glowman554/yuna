@@ -2,7 +2,7 @@
     include_once "include/config/database.php";
 
     function exception_handler($exception) {
-        // header("Location: /error.php?error=" . urlencode("PHP error"));
+        header("Location: /error.php?error=" . urlencode("PHP error"));
         throw $exception;
     }
       
