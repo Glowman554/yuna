@@ -1,0 +1,4 @@
+HiddenServiceDir /hidden_service_yuna/
+HiddenServicePort 80 yuna:80
+
+SocksPort 0.0.0.0:9050

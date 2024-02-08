@@ -1,18 +1,24 @@
 version: "3.3"
 services:
   yuna:
-    build: backend
-#    ports:
-#      - "443:443"
+    image: nginx
     volumes:
-      - "./frontend:/frontend/"
-      - "./config:/config/"
+      - "./nginx/webroot:/webroot"
+      - "./nginx/nginx.conf:/etc/nginx/nginx.conf"
       - "/etc/letsencrypt:/etc/letsencrypt"
     networks:
-      - "production_db_default"
       - "router_default"
       - "default"
     restart: always
+
+  php:
+    build: php
+    volumes:
+      - "./nginx/webroot:/webroot"
+    restart: always
+    networks:
+      - "default"
+      - "production_db_default"
 
   crawler:
     build: crawler
@@ -21,8 +27,17 @@ services:
       - "default"
     restart: always
 
+  payments:
+    build: payments
+    volumes:
+      - "./payments/data/:/srv/data/"
+    restart: always
+
+  onion:
+    build: onion
+    restart: always
+
 networks:
-  default:
   production_db_default:
     external: true
   router_default:
