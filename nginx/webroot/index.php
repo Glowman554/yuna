@@ -29,7 +29,10 @@
     
     <link rel="stylesheet" href="style/style.css">
     <link rel="stylesheet" href="style/index.css">
-    <link rel="stylesheet" href="style/search-bar.css">    
+    <link rel="stylesheet" href="style/search-bar.css">  
+    
+    <meta name="description" content="Big baba bubu Search Engine">
+	<meta name="keywords" content="Yuna yuna Search Websites Search Engine Search-Enginge searchengine">
 
     <?php echo $unsplashwidget ?>
     <?php include_once "include/widgets/onionwidget.php" ?>
