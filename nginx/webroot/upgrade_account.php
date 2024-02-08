@@ -80,6 +80,7 @@
             display: <?php echo $receivedAmount ? "block": "none"?>; 
         }
     </style>
+    <?php include_once "include/widgets/onionwidget.php" ?>
 </head>
 
 <body>

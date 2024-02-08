@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="style/login.css">
     <link rel="stylesheet" href="style/style.css">
 
+    <?php include_once "include/widgets/onionwidget.php" ?>
 </head>
 
 <body>

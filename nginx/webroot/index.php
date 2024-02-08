@@ -32,6 +32,7 @@
     <link rel="stylesheet" href="style/search-bar.css">    
 
     <?php echo $unsplashwidget ?>
+    <?php include_once "include/widgets/onionwidget.php" ?>
 </head>
 
 <body>
