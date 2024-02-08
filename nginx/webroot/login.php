@@ -50,7 +50,12 @@
 
         if ($token) {
             insertToken($token, $username, $databaseConnection);
-            setcookie("usertoken", $token, time() + (86400 * 30), "/");
+            $data = loadUserInfo($username, $databaseConnection);
+            $expiration = time() + (24 * 60 * 60);
+            if ($data->premium) {
+                $expiration = time() + (30 * 24 * 60 * 60);
+            }
+            setcookie("usertoken", $token, $expiration, "/");
             header("Refresh: 0");
         }
     }

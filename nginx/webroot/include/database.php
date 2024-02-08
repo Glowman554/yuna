@@ -20,7 +20,7 @@
     }
 
     function cleanupSessions($db) {
-        $deleteOldSessionsStatement = $db->prepare("delete from user_sessions where timestamp < now() - interval 1 day");
+        $deleteOldSessionsStatement = $db->prepare("delete user_sessions from user_sessions inner join users on user_sessions.username = users.username where (premium = 0 and timestamp < now() - interval 1 day) or (premium = 1 and timestamp < now() - interval 30 day)");
         $deleteOldSessionsStatement->execute();
         $deleteOldSessionsStatement->close();
     }
